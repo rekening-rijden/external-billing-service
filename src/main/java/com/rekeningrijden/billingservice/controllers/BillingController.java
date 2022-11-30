@@ -1,12 +1,14 @@
 package com.rekeningrijden.billingservice.controllers;
 
 import be.woutschoovaerts.mollie.exception.MollieException;
+import com.rekeningrijden.billingservice.models.DTOs.BillingDataRequestDTO;
 import com.rekeningrijden.billingservice.models.DTOs.PaymentInfoDTO;
 import com.rekeningrijden.billingservice.services.BillingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/billing")
+@RestController()
+@RequestMapping("/billing")
 @CrossOrigin(origins = "*")
 public class BillingController {
     private final BillingService billingService;
@@ -20,9 +22,9 @@ public class BillingController {
         return this.billingService.test();
     }
 
-    @PostMapping("/createpayment")
-    public ResponseEntity<?> createPayment(@RequestBody PaymentInfoDTO paymentInfoDTO) {
-        return this.billingService.createPayment(/*paymentInfoDTO*/);
+    @PostMapping("/externalBilling")
+    public ResponseEntity<?> createPayment(@RequestBody BillingDataRequestDTO billingDataRequestDTO) {
+        return this.billingService.createPayment(billingDataRequestDTO);
     }
 
     @GetMapping("/getpayment/{paymentId}")

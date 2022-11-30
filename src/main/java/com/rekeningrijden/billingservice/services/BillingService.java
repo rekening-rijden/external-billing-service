@@ -7,6 +7,7 @@ import be.woutschoovaerts.mollie.data.payment.PaymentMethod;
 import be.woutschoovaerts.mollie.data.payment.PaymentRequest;
 import be.woutschoovaerts.mollie.data.payment.PaymentResponse;
 import be.woutschoovaerts.mollie.exception.MollieException;
+import com.rekeningrijden.billingservice.models.DTOs.BillingDataRequestDTO;
 import com.rekeningrijden.billingservice.models.DTOs.PaymentInfoDTO;
 import com.rekeningrijden.billingservice.reporitories.BillingRepository;
 import org.apache.http.client.methods.HttpGet;
@@ -37,12 +38,13 @@ public class BillingService {
         return "test";
     }
 
-    public ResponseEntity<?> createPayment(/*PaymentInfoDTO paymentInfoDTO*/) {
+    public ResponseEntity<?> createPayment(BillingDataRequestDTO bdr) {
         // Check if paymetInfoDTO is valid
 //        if (paymentInfoDTO == null) {
 //            return ResponseEntity.badRequest().body("PaymentInfoDTO is null");
 //        }
         // Create payment with mollie
+        //Calculate price here
         try {
             PaymentRequest paymentRequest = new PaymentRequest();
             paymentRequest.setAmount(new Amount("EUR", new BigDecimal("10.00")));
