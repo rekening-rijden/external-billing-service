@@ -8,6 +8,7 @@ import be.woutschoovaerts.mollie.data.payment.PaymentRequest;
 import be.woutschoovaerts.mollie.data.payment.PaymentResponse;
 import be.woutschoovaerts.mollie.exception.MollieException;
 import com.rekeningrijden.billingservice.models.DTOs.BillingDataRequestDTO;
+import com.rekeningrijden.billingservice.models.DTOs.ExternalResponseDTO;
 import com.rekeningrijden.billingservice.models.DTOs.PaymentInfoDTO;
 import com.rekeningrijden.billingservice.reporitories.BillingRepository;
 import org.apache.http.client.methods.HttpGet;
@@ -52,8 +53,9 @@ public class BillingService {
             paymentRequest.setRedirectUrl(java.util.Optional.of("https://www.google.com"));
 
             PaymentResponse paymentResponse = this.mollieClient.payments().createPayment(paymentRequest);
-                System.out.println(paymentResponse);
-            return ResponseEntity.ok(paymentResponse);
+            System.out.println(paymentResponse);
+            ExternalResponseDTO erd = new ExternalResponseDTO(bdr.getCarId(), Math.random() * (500 - 12) + 12, 12.0, "1+1=2", paymentResponse.getLinks().getCheckout().getHref());
+            return ResponseEntity.ok(erd);
         } catch (MollieException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
